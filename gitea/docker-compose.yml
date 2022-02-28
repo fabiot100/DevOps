@@ -1,0 +1,43 @@
+version:  "2.2"
+
+#networks:
+#  gitea:
+#    external: false
+
+services:
+  gitea:
+    image: gitea/gitea:latest
+    container_name: gitea
+    network_mode: my_network
+    volumes:
+      - ./gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "222:22"
+    environment:
+      - USER_UID=1001
+      - USER_GID=1001
+    restart: always
+#    networks:
+#      - gitea
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_gitea
+    network_mode: my_network
+    user: root
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=10203040
+      - MYSQL_DATABASE=gitea
+      - MYSQL_USER=gitea
+      - MYSQL_PASSWORD=10203040
+      - TZ=America/Sao_Paulo
+#    networks:
+#      - gitea
+    volumes:
+      - ./mysql/:/var/lib/mysql

@@ -1,0 +1,22 @@
+version:  "2.2"
+
+services:
+  jenkins:
+#    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile : Dockerfile
+    container_name: jenkins
+    restart: unless-stopped
+    network_mode: my_network
+    volumes:
+      - ./jenkins:/var/jenkins_home
+    user: root
+    environment:
+      - TZ=America/Sao_Paulo
+#      JENKINS_HOST_HOME: "./jenkins_home"
+    ports:
+      - "8081:8080"
+#      - "5000:5000"
+#      - "50000:50000"
+

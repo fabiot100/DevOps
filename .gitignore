@@ -1,0 +1,11 @@
+#Elasticsearch
+elasticsearch/env/elasticsearch.env
+
+#Kong
+kong/env/kong.env
+
+#MySQL
+mysql/env/mysql.env
+
+#MongoDB
+mongodb/env/mongodb.env

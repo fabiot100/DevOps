@@ -1,0 +1,21 @@
+FROM kong:2.7.1
+
+LABEL description="Kong 2.7.1 + kong-oidc plugin"
+
+USER root
+
+COPY ./plugins/ /usr/local/share/lua/5.1/kong/plugins/
+
+COPY ./lua_packages/ /home/kong/lua_packages/
+
+RUN chown -R kong:kong /usr/local/share/lua/5.1/kong/
+
+RUN cd /home/kong/lua_packages/ && luarocks install lua-resty-session-3.8-1.src.rock && \
+        luarocks install lua-resty-jwt-0.2.3-0.src.rock && \
+        luarocks install lua-resty-http-0.16.1-0.src.rock && \
+        luarocks install lua-resty-openidc-1.6.0-1.src.rock && \
+        luarocks install kong-oidc-1.1.0-0.src.rock
+
+USER kong
+
+CMD ["kong", "docker-start"]

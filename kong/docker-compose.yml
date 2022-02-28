@@ -1,0 +1,64 @@
+version: '3.7'
+
+networks:
+  kong-keycloak-net: 
+    name: kong-keycloak-net
+    ipam:
+      config:
+        - subnet: "192.168.50.0/24"
+    
+services:
+  kong.db.com.br:
+    image: postgres:11-alpine
+    container_name: kong.db.com.br
+    volumes:
+      - "./postgresql/kong-db:/var/lib/postgresql/data:z"
+    networks:
+      kong-keycloak-net:
+        ipv4_address: 192.168.50.10
+    ports:
+      - "15432:5432"
+    env_file:
+      - ./env/kong.env
+
+  kong:  
+    build: ./build
+    container_name: kong
+    depends_on:
+      - kong.db.com.br
+    networks:
+      kong-keycloak-net:
+        ipv4_address: 192.168.50.11
+#    command: "kong migrations bootstrap"
+#    command: "kong migrations up" 
+#    command: "kong migrations finish"
+    ports:
+      - "80:8000" # Listener
+      - "443:8443" # Listener (SSL)
+      - "8001:8001" # Admin API
+      - "8444:8444" # Admin API (SSL)
+    extra_hosts:
+      - "server-name-here.com.br:127.0.0.1" 
+    volumes:
+      - "./kong/var/log/kong:/var/log/kong:z"
+      - "./kong/etc/kong:/etc/kong:z"
+#      - "./kong/ModSecurity:/ModSecurity"
+#      - "./kong/usr/local/coreruleset:/usr/local/coreruleset"
+      - "/etc/localtime:/etc/localtime:ro"
+    env_file:
+      - ./env/kong.env
+
+  konga:
+    image: konga-sha256-ldap:0.14.9
+    container_name: konga
+    depends_on:
+      - kong
+    networks:
+      kong-keycloak-net:
+        ipv4_address: 192.168.50.12
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    ports:
+      - "1337:1337"
+    env_file:
+      - ./env/kong.env

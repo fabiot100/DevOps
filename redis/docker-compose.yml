@@ -1,0 +1,14 @@
+version: '3.2'
+
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    restart: unless-stopped
+    command: redis-server --requirepass Redis_Password
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
