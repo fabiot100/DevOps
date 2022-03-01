@@ -1,4 +1,4 @@
-# Kong installation tutorial using Docker
+# Kong + ModSecurity installation tutorial using Docker
 
 This tutorial explains how to install Kong using Docker.
 
