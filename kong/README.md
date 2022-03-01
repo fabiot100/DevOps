@@ -2,17 +2,20 @@
 
 This tutorial explains how to install Kong using Docker.
 
-- [Explaining some files/folders](#explaining-some-files/folders)
-- [Step 1 - Kong certificates (Nginx)](#step-1-kong-certificates-(Nginx))
-- [Step 2 - Preparing database (SANDBOX ONLY)](#step-2-preparing-database-(sandbox-only))
-- [Step 3 - Environments variables](#step-3-environments-variables)
-- [Step 4 - docker-compose.yml](#step-4-docker-compose.yml)
-- [Step 5 - Kong logs](#step-5-kong-logs)
-- [Step 6 - Initializing Konga database](#step-6-initializing-konga-database)
-- [Step 7 - Creating Konga image](#step-7-creating-konga-image)
-- [Step 8 - Initializing ModSecurity](#step-8-initializing-modsecurity)
-- [Step 9 - Security policies](#step-9-security-policies)
-- [Step 109 - Results](#step-10-results)
+- [Explaining some files/folders](#explaining-some-filesfolders)
+- [Step 1 - Kong certificates (Nginx)](#step-1---kong-certificates-nginx)
+- [Step 2 - Preparing database](#step-2---preparing-database)
+    - [Creating certificates](#creating-certificates)
+        - [Configuring certificates on client](#configuring-certificates-on-client)
+    - [Configuring PostgreSQL](#configuring-postgresql)
+- [Step 3 - Environments variables](#step-3---environments-variables)
+- [Step 4 - docker-compose.yml](#step-4---docker-composeyml)
+- [Step 5 - Kong logs](#step-5---kong-logs)
+- [Step 6 - Initializing Konga database](#step-6---initializing-konga-database)
+- [Step 7 - Creating Konga image](#step-7---creating-konga-image)
+- [Step 8 - Initializing ModSecurity](#step-8---initializing-modsecurity)
+- [Step 9 - Security policies](#step-9---security-policies)
+- [Step 10 - Results](#step-10---results)
 
 **NOTE** - Our workdir will be ***/opt/devops/kong***.
 
@@ -129,6 +132,8 @@ DB_USER=                                                                        
 DB_PASSWORD=                                                                    # database_password
 DB_SSL=true                                                                     # database_certificate_true/false
 NODE_ENV=development                                                            # kong_environment_production/development
+NODE_PG_FORCE_NATIVE=1                                                          # necessário para utilizar criptografica scram-sha-256 com postgres
+NODE_TLS_REJECT_UNAUTHORIZED=0                                                  # necessário para utilizar autenticação via LDAP
 #KONGA_AUTH_PROVIDER=ldap                                                       # LDAP_autentication
 #KONGA_LDAP_HOST=                                                               # LDAP_host
 #KONGA_LDAP_BIND_DN=
