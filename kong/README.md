@@ -1,6 +1,9 @@
 # Kong + ModSecurity installation tutorial using Docker
 
-This tutorial explains how to install Kong using Docker.
+This tutorial explains how to install Kong with ModSecurity using Docker.
+
+[Kong](https://github.com/Kong/kong) </br>
+[ModSecurity](https://github.com/SpiderLabs/ModSecurity)
 
 - [Explaining some files/folders](#explaining-some-filesfolders)
 - [Step 1 - Kong certificates (Nginx)](#step-1---kong-certificates-nginx)
