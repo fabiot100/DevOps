@@ -1,8 +1,10 @@
-FROM kong:2.7.1
+FROM kong:2.7.2
 
-LABEL description="Kong 2.7.1 + kong-oidc plugin"
+LABEL description="Kong 2.7.2 + kong-oidc plugin"
 
 USER root
+
+RUN apk update && apk upgrade
 
 RUN apk add build-base
 
