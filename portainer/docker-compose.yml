@@ -1,0 +1,62 @@
+version: "3.9"
+
+services:
+  portainer-nginx:
+    image: nginx:1.21.6
+    ports:
+      - "9000:9000"
+    container_name: portainer-nginx
+    networks:
+      - portainer-network
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./portainer_certificado:/etc/nginx/portainer_certificado
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+
+  portainer:
+    image: portainer/portainer-ce:2.11.1
+    command: -H unix:///var/run/docker.sock
+    container_name: portainer
+    privileged: true
+    userns_mode: 'host'
+    networks:
+      - portainer-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    healthcheck:
+      test: ["CMD", "/docker", "container", "top", "portainer"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+      restart_policy:
+        condition: on-failure
+        max_attempts: 5
+
+volumes:
+  portainer_data:
+    external: true
+
+networks:
+  portainer-network:
+    driver_opts:
+      com.docker.network.driver.mtu: 1400
+    name: portainer-network
