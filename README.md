@@ -2,7 +2,7 @@
 
 This repository contains some tools that are used in our day to day, with focus in DevOps.
 
-- [Elasticsearch](https://github.com/fabiot100/elasticsearch.git)
+- [Elasticsearch](https://github.com/fabiot100/elasticsearch.git){:target="_blank"}
 - [Gitea](https://github.com/fabiot100/gitea.git)
 - [Jenkins](https://github.com/fabiot100/jenkins.git)
 - [Kong](https://github.com/fabiot100/kong.git)
